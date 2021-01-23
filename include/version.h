@@ -1,0 +1,5 @@
+#pragma once
+
+#define SUDOKU_MAJOR_VERSION 1
+#define SUDOKU_MINOR_VERSION 0
+#define SUDOKU_PATCHLEVEL    0
