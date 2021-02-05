@@ -1,7 +1,7 @@
 #include <include/magicSquare.h>
 #include <include/sudoku.h>
 #include <utils/printSudoku.h>
-#include <utils/config.h>
+#include <utils/fileConfig.h>
 
 #include <algorithm>
 #include <cassert>
@@ -29,8 +29,8 @@ static int parseOptions(Options* options, int argc, const char* argv[]) {
 	return 1;
 }
 
-static void printGrid(const Grid* grid) {
-	printSudoku(grid->cells, grid->dim, grid->blockDimX, grid->blockDimY);
+static void printGrid(const Grid* grid, const wchar_t* alphabet) {
+	printSudoku(grid->cells, grid->dim, grid->blockDimX, grid->blockDimY, alphabet);
 }
 
 #if ENABLE_STATS
@@ -46,6 +46,16 @@ static void printUsage() {
 
 static void printConfig(const Config& config) {
 	printf("Grid size: %d\n", config.gridSize);
+	if (config.defaultAlphabet) {
+		printf("Alphabet: default\n");
+	}
+	else {
+		printf("Alphabet: ");
+		for (int i = 0; i < config.alphabetCount; ++i) {
+			printf("%c,", config.alphabet[i]);
+		}
+		printf("\n");
+	}
 	printf("Rules:\n");
 	printf("  Diagonals:    %s\n", config.rules->diagonals ? "true" : "false");
 	printf("  Knights:      %s\n", config.rules->knights ? "true" : "false");
@@ -118,7 +128,7 @@ int __cdecl main(int argc, const char* argv[]) {
 	setGrid(grid, config.numbers, config.numberCount);
 
 	printf("\nInput grid\n");
-	printSudoku(grid->cells, grid->dim, grid->blockDimX, grid->blockDimY);
+	printSudoku(grid->cells, grid->dim, grid->blockDimX, grid->blockDimY, config.defaultAlphabet ? NULL : config.alphabet);
 
 	SolveStats stats;
 	const auto startTime = std::chrono::steady_clock::now();
@@ -128,7 +138,7 @@ int __cdecl main(int argc, const char* argv[]) {
 	printf("Computing...\n");
 	if (res == error_ok) {
 		printf("Output grid\n");
-		printGrid(grid);
+		printGrid(grid, config.defaultAlphabet ? NULL : config.alphabet);
 		printf("\n");
 		const auto elapsedMicros = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count();
 		printf("Elapsed time: %.4f msec\n", static_cast<double>(elapsedMicros) / 1e3);

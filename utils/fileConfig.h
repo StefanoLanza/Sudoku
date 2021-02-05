@@ -1,5 +1,7 @@
 #pragma once
 
+#include <wchar.h>
+#include <include/config.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -10,9 +12,12 @@ struct Rules;
 
 typedef struct Config {
 	int gridSize;
-	int numbers[36 * 36];
+	int numbers[maxGridCells];
 	int numberCount;
 	struct Rules* rules;
+	int defaultAlphabet;
+	int alphabetCount;
+	wchar_t alphabet[maxGridSize];
 } Config;
 
 int readConfigFromFile(Config* config, const char* fileName);

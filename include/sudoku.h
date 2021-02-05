@@ -15,11 +15,6 @@ enum GridSize {
 	// TODO gridSize_36
 };
 
-enum CharacterSet {
-	characterSet_numbers,
-	characterSet_letters
-};
-
 enum ErrorCode {
     error_ok = 0,
     error_outOfMemory,

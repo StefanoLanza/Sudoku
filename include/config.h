@@ -16,3 +16,11 @@
 #ifndef ENABLE_PROGRESS
 #define ENABLE_PROGRESS 0
 #endif
+
+#if LARGE_GRIDS
+static const int maxGridSize = 25;
+#else
+static const int maxGridSize = 9;
+#endif
+static const int maxGridCells = maxGridSize * maxGridSize;
+

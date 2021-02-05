@@ -1,4 +1,4 @@
-#include "config.h"
+#include "fileConfig.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -20,13 +20,26 @@ static bool isSeparator(char c) {
 }
 
 static int parseNumbers(int* numbers, int oldCount, const char* str) {
-	const int maxCount = 36 * 36;
 	int d = oldCount;
 	for (int i = 0, l = (int)strlen(str); i < l; ++i) {
 		if (! isSeparator(str[i])) {
 			numbers[d] = (str[i] >= 'A') ? ((str[i] - 'A') + 10) : (str[i] - '0');
 			++d;
-			if (d >= maxCount) {
+			if (d >= maxGridCells) {
+				break;
+			}
+		}
+	}
+	return d;
+}
+
+static int parseAlphabet(wchar_t* alphabet, int oldCount, const char* str) {
+	int d = oldCount;
+	for (int i = 0, l = (int)strlen(str); i < l; ++i) {
+		if (! isSeparator(str[i])) {
+			alphabet[d] = str[i];
+			++d;
+			if (d >= maxGridSize) {
 				break;
 			}
 		}
@@ -44,6 +57,9 @@ static int INIParser(void* user, const char* section, const char* name, const ch
 	if (! strcmp(name, "numbers")) {
 		config->numberCount = parseNumbers(config->numbers, config->numberCount, value);
 	}
+	if (! strcmp(name, "alphabet")) {
+		config->alphabetCount = parseAlphabet(config->alphabet, config->alphabetCount, value);
+	}
 	return 1;
 }
 
@@ -53,7 +69,10 @@ static int INIParser(void* user, const char* section, const char* name, const ch
 static void setDefaultConfig(Config* config) {
 	config->gridSize = 9;
 	config->numberCount = 0;
+	config->defaultAlphabet = 1;
+	config->alphabetCount = 0;
 	memset(config->numbers, 0, sizeof config->numbers);
+	memset(config->alphabet, 0, sizeof config->alphabet);
 }
 
 int readConfigFromFile(Config* config, const char* fileName) {
@@ -65,19 +84,26 @@ int readConfigFromFile(Config* config, const char* fileName) {
 	else if (err != 0) {
 		printf("Failed to parse file %s\n", fileName);
 	}
+	if (config->alphabetCount > 0) {
+		if (config->alphabetCount == config->gridSize) {
+  			config->defaultAlphabet = 0;
+  		}
+		else {
+			printf("Incomplete parsing of alphabet in file %s\n", fileName);
+		}
+	}
 	return err == 0;
 }
-
 
 int writeConfigToFile(const Config* config, const char* fileName) {
 	FILE* file = fopen(fileName, "w");
 	if (! file) {
 		return 0;
-    }
-    fprintf(file, "gridSize: %d", config->gridSize);
-    fprintf(file, "knights: %d", config->rules->knights);
-    fprintf(file, "diagonals: %d", config->rules->diagonals);
-    fprintf(file, "magicSquare: %d", config->rules->magicSquare);
-    return 1;
+	}
+	fprintf(file, "gridSize: %d", config->gridSize);
+	fprintf(file, "knights: %d", config->rules->knights);
+	fprintf(file, "diagonals: %d", config->rules->diagonals);
+	fprintf(file, "magicSquare: %d", config->rules->magicSquare);
+	return 1;
 }
 

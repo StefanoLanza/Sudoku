@@ -9,7 +9,7 @@
 #include <iostream>
 
 static void printGrid(const Grid* grid) {
-	printSudoku(grid->cells, grid->dim, grid->blockDimX, grid->blockDimY);
+	printSudoku(grid->cells, grid->dim, grid->blockDimX, grid->blockDimY, NULL);
 }
 
 #if ENABLE_STATS
