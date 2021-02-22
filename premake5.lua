@@ -108,6 +108,6 @@ project("Example1")
 
 project("Solver")
 	kind "ConsoleApp"
-	files { "solver/solver.cpp" }
+	files { "solver/**.*" }
 	sysincludedirs { "./", "external", }
 	links( { "Sudoku", "Utils" })

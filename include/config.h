@@ -18,9 +18,8 @@
 #endif
 
 #if LARGE_GRIDS
-static const int maxGridSize = 25;
+enum { maxGridSize = 25, maxGridCells = 25 * 25 };
 #else
-static const int maxGridSize = 9;
+enum { maxGridSize = 9, maxGridCells = 9 * 9 };
 #endif
-static const int maxGridCells = maxGridSize * maxGridSize;
 

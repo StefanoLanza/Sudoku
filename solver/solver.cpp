@@ -1,7 +1,7 @@
 #include <include/magicSquare.h>
 #include <include/sudoku.h>
 #include <utils/printSudoku.h>
-#include <utils/fileConfig.h>
+#include "fileConfig.h"
 
 #include <algorithm>
 #include <cassert>
