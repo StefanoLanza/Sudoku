@@ -22,13 +22,8 @@ typedef struct GridTemp {
 	int squareDimY;
 	int completed;
 	int numCells;
-#if LARGE_GRIDS
-	int  cells[25 * 25];
-	Mask cellMask[25 * 25];
-#else
-	int  cells[9 * 9];
-	Mask cellMask[9 * 9];
-#endif
+	int  cells[maxGridCells];
+	Mask cellMask[maxGridCells];
 	int firstCellIdx;
 } GridTemp;
 
@@ -276,7 +271,7 @@ static int solveIter(GridTemp* bt, const Rules* rules, int cellIdx, SolveStats* 
 	while (bitset != 0) {
 		const int number = __builtin_ctzl(bitset);
 		assert(number >= 1 && number <= bt->dim);
-		bitset ^= (bitset & -bitset);
+		bitset ^= (bitset & (Mask)-bitset);
 		{
 			assert(! checkRow(bt, row, number));
 			assert(! checkColumn(bt, col, number));
@@ -503,13 +498,14 @@ void deleteGrid(Grid* grid) {
 	}
 }
 
-void setDefaultRules(Rules* rules) {
-	(void)rules;
+Rules defaultRules() {
+	Rules rules;
 #if EXTENDED_RULES
-	rules->diagonals = false;
-	rules->knights = false;
-	rules->magicSquare = false;
+	rules.diagonals = false;
+	rules.knights = false;
+	rules.magicSquare = false;
 #endif
+	return rules;
 }
 
 void setGrid(Grid* grid, const int numbers[], int numberCount) {

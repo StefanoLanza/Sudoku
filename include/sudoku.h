@@ -63,7 +63,7 @@ extern "C" {
 
 Grid* newGrid(enum GridSize size);
 void deleteGrid(Grid* grid);
-void setDefaultRules(Rules* rules);
+Rules defaultRules();
 void setGrid(Grid* grid, const int numbers[], int numberCount);
 enum ErrorCode solveGrid(Grid* grid, const Rules* rules, SolveStats* stats, Logger logger, Progress progress);
 

@@ -38,8 +38,7 @@ TEST_CASE("Magic Square") {
 
 TEST_CASE("Sudoku") {
 	Grid* grid = NULL;
-	Rules rules;
-	setDefaultRules(&rules);
+	Rules rules = defaultRules();
 	enum ErrorCode res;
 	const int* solution = NULL;
 	SECTION("4x4") {

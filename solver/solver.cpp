@@ -13,8 +13,10 @@ struct Options {
 	bool printSolutionAsArray;
 };
 
-static void defaultOptions(Options* options) {
-	options->printSolutionAsArray = false;
+static Options defaultOptions() {
+	Options options {};
+	options.printSolutionAsArray = false;
+	return options;
 }
 
 static int parseOptions(Options* options, int argc, const char* argv[]) {
@@ -78,21 +80,19 @@ static void printSolutionAsArray(const Grid* grid) {
 
 int __cdecl main(int argc, const char* argv[]) {
 	printf("Sudoku Solver\n");
-	printf("© Stefano Lanza - steflanz@gmail.com\n\n");
+	printf("Copyright Stefano Lanza - steflanz@gmail.com\n\n");
 
 	if (argc < 2) {
 		printUsage();
 		return 0;
 	}
 	
-	Options options;
-	defaultOptions(&options);
+	Options options = defaultOptions();
 	if (0 == parseOptions(&options, argc, argv)) {
 		return 0;
 	}
 	
-	Rules rules;
-	setDefaultRules(&rules);
+	Rules rules = defaultRules();
 
 	Config config;
     config.rules = &rules;

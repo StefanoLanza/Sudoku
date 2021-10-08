@@ -33,8 +33,7 @@ static bool printProgress(int iteration) {
 
 int __cdecl main(int /*argc*/, char* /*argv*/[]) {
 	Progress progressCbk = NULL;
-	Rules rules;
-	setDefaultRules(&rules);
+	Rules rules = defaultRules();
 
 #if 0 // 4x4
     Grid* grid = newGrid(gridSize_4);
