@@ -7,6 +7,7 @@
 #include <cassert>
 #include <chrono>
 #include <cstdarg>
+#include <cstring>
 #include <iostream>
 
 struct Options {
@@ -78,7 +79,7 @@ static void printSolutionAsArray(const Grid* grid) {
 	printf("};\n");
 }
 
-int __cdecl main(int argc, const char* argv[]) {
+int main(int argc, const char* argv[]) {
 	printf("Sudoku Solver\n");
 	printf("Copyright Stefano Lanza - steflanz@gmail.com\n\n");
 

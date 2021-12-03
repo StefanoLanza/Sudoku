@@ -31,7 +31,7 @@ static bool printProgress(int iteration) {
 }
 #endif
 
-int __cdecl main(int /*argc*/, char* /*argv*/[]) {
+int main(int /*argc*/, char* /*argv*/[]) {
 	Progress progressCbk = NULL;
 	Rules rules = defaultRules();
 

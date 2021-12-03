@@ -10,7 +10,7 @@ static bool compareGrids(const int* lhs, const int* rhs, int gridSize) {
 	return ! memcmp(lhs, rhs, sizeof(int) * gridSize * gridSize);
 }
 
-int __cdecl main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) {
 	return Catch::Session().run(argc, argv);
 }
 

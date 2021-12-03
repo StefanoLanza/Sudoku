@@ -53,6 +53,10 @@ filter { vs, debug, }
 filter { vs, release, }
 	defines { "_ITERATOR_DEBUG_LEVEL=0", "_SECURE_SCL=0", "_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1", "_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES_COUNT=1",  }
 
+filter {  "toolset:gcc" }
+    -- https://stackoverflow.com/questions/39236917/using-gccs-link-time-optimization-with-static-linked-libraries
+    buildoptions { "-ffat-lto-objects" }
+
 filter { debug }
 	defines { "_DEBUG", "DEBUG", }
 	flags   { "NoManifest", }
@@ -61,6 +65,7 @@ filter { debug }
 	warnings "Extra"
 	symbols "Full"
 	runtime "Debug"
+    debugdir "bin"
 
 filter { release }
 	defines { "NDEBUG", }
@@ -70,11 +75,6 @@ filter { release }
 	warnings "Extra"
 	symbols "Off"
 	runtime "Release"
-
-configuration "Debug"
-    debugdir "bin"
-
-configuration "Release"
     debugdir "bin"
 
 project("Sudoku")
@@ -110,4 +110,4 @@ project("Solver")
 	kind "ConsoleApp"
 	files { "solver/**.*" }
 	sysincludedirs { "./", "external", }
-	links( { "Sudoku", "Utils" })
+	links( { "Sudoku", "Utils", "Inih", })
